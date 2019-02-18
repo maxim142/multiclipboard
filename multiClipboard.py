@@ -9,12 +9,28 @@ def NotExistingName(a, b):
 		b.append(a)
 		return True
 
+def existingName(a, b):
+	if a in b:
+		return True
+
+
+def copToBoard(a):
+	text = mcbShelf[a]
+	pyperclip.copy(text)
+	print (title + " copied to clipboard")
+
+def saveToFile(a):
+	text = str(pyperclip.paste())
+	mcbShelf[a] = text
+	print ("saved")
+
 
 
 print ("""Welcome. This is the multiclipboard app.\n
 	Just enter a name, hit enter and this will copy your clipboard.\n 
 	Need the text back? type the name again and you can paste it.\n
-	Type "help" to view your copies.\n
+	Type "copies" to view your copies.\n
+	Type "OW" (OverWrite) to overwrite one of your copies.\n
 	Type "exit" to exit the app.
 	""")
 
@@ -24,20 +40,18 @@ while x == 1:
 	if title == "exit":
 		x=0
 
-	elif title == "help":
+	elif title == "copies":
 		print (names)
-	else:
+	elif title == "OW":
+		overWrite = input("what do you want to overwrite: ")
+		if existingName(overWrite, names):
+			saveToFile(overWrite)
 
-		if NotExistingName(title, names):
-			text = str(pyperclip.paste())
-			mcbShelf[title] = text
-			print ("saved")
+	elif NotExistingName(title, names):
+		saveToFile(title)
+	elif existingName(title, names):
+		copToBoard(title)
 
-		else:
-
-			text = mcbShelf[title]
-			pyperclip.copy(text)
-			print (title + " copied to clipboard")
 
 
 
